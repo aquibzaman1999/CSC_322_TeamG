@@ -1,0 +1,26 @@
+
+
+<div class="container d-flex flex-column">
+    <div class="row mt-4">
+        <div class="col-12">
+            <form action="{{ url_for('add_taboo_word') }}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="word" name="word" placeholder="Add a new taboo word">
+                    <button class="btn btn-outline-success" type="submit" id="button-addon2">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% for word in words %}
+        <div id="taboo-{{word.id}}" class="d-flex align-items-center mt-2">
+            <p class="m-0">{{ word.word }}</p>
+            <button id="delete-taboo-{{word.id}}" class="btn btn-danger btn-sm ms-4">Delete</button>
+        </div>
+        <hr id="taboo-hr-{{word.id}}">
+        <script>
+            document.querySelector("#delete-taboo-{{word.id}}").addEventListener("click", function() {
+                remove_taboo_word({{word.id}});
+            });
+        </script>
+    {% endfor %}
+</div>

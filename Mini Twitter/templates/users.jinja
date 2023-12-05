@@ -1,0 +1,59 @@
+<div class="table-responsive users-table">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Reviewed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr id="user-row-{{user.id}}">
+                    <td class="user-username">
+                        <a href="{{ url_for('profile', id=user.id) }}">
+                            {{ user.username }}
+                        </a>
+                    </td>
+                    <td class="user-fullname">{{ user.fullname }}</td>
+                    <td class="user-type">
+                        {% if user.super > 0 %}
+                            Super
+                        {% elif user.corporate > 0 %}
+                            Corporate 
+                        {% else %}
+                            Regular
+                        {% endif %}
+                    </td>
+                    <td class="user-balance">{{ user.balance }} $</td>
+                    <td class="user-reviewed">
+                        {% if user.reviewed == 1 and user.denied == 0 %}
+                            Accepted
+                            {% if not user.super %}
+                            <button id="delete-user-{{user.id}}" class="btn btn-outline-danger ms-2">Delete</button>
+                            <script>
+                                document.querySelector("#delete-user-{{user.id}}").addEventListener("click", () => delete_user({{user.id}}));
+                            </script>
+                            {% endif %}
+                        {% elif user.reviewed == 1 %}
+                            Rejected
+                        {% else %}
+                            <div>
+                                <button id="accept-user-{{user.id}}" class="btn btn-outline-primary">Accept</button>
+                                <button id="reject-user-{{user.id}}" class="btn btn-outline-danger">Reject</button>
+                            </div>
+                            <script>
+                                document.querySelector("#accept-user-{{user.id}}").addEventListener("click", () => accept_user({{user.id}}));
+                            </script>
+                            <script>
+                                document.querySelector("#reject-user-{{user.id}}").addEventListener("click", () => reject_user({{user.id}}));
+                            </script>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

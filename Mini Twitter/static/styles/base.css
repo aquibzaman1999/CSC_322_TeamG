@@ -1,0 +1,42 @@
+html,
+body {
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar .nav-link.active {
+    color: #2470dc;
+    font-weight: bold;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+.avatar_image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* background-color: blue; */
+    /* commented for demo
+    float: left;
+    margin-left: 125px;
+    margin-top: 20px;
+    */
+
+    /*for demo*/
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.avatar_image img {
+    width: 100%;
+}
+
+button.btn.dropdown-toggle {
+    border: none !important;
+}

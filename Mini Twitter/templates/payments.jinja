@@ -1,0 +1,48 @@
+<div>
+    {% if g.user.super == 0 %}
+    <div class="row">
+        <h3 class="col-sm-auto">Balance: {{g.user.balance}} $</h3>
+        <div class="col">
+            <a class="btn btn-primary" href="{{ url_for('add_payment') }}">Make a deposit</a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="table-responsive payments-table">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    {% if g.user.super == 1 %}
+                        <th scope="col">Username</th>
+                    {% endif %}
+                    <th scope="col">Type</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Explanation</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                    <tr>
+                        {% if g.user.super == 1 %}
+                            <td>
+                                <a href="{{ url_for('profile', id=payment.user_id) }}">
+                                    {{ payment.get_user().username }}
+                                </a>
+                            </td>
+                        {% endif %}
+                        <td>
+                            {% if payment.payment_amount > 0 %}
+                                Deposit
+                            {% else %}
+                                Charge
+                            {% endif %}
+                        </td>
+                        <td>{{ payment.payment_amount }}</td>
+                        <td>{{ payment.explanation }}</td>
+                        <td>{{ payment.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

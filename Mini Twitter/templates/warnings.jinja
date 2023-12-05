@@ -1,0 +1,93 @@
+
+  <div class="table-responsive warnings-table">
+    <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    {% if g.user.super == 1 %}
+                        <th scope="col">Username</th>
+                        <th scope="col">Type</th>
+                    {% endif %}
+                    <th scope="col">Subject</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for warning in warnings %}
+                    <tr id="warning-row-{{warning.id}}">
+                        {% if g.user.super == 1 %}
+                            <td class="warning-username">
+                                <a href="{{ url_for('profile', id=warning.user_id) }}">
+                                    {{ warning.get_user().username }}
+                                </a>
+                            </td>
+                            <td class="warning-type">
+                                {{warning.type}}
+                            </td>
+                        {% endif %}
+                        <td class="warning-subject">
+                            {% if warning.type == 'message_warning' or warning.type == 'message_warning' %}
+                                <a href="{{ url_for('post', id=warning.message_id) }}">
+                                    Message
+                                </a>
+                                <br>
+                                <small>
+                                    {{warning.get_message().message | truncate(20)}}
+                                    {{warning.get_message().message | length > 20 and '...' or ''}}
+                                </small>
+                            {% elif warning.type == 'comment_warning' %}
+                                <a href="{{ url_for('post', id=warning.get_comment().message_id) }}">
+                                    Comment
+                                </a>
+                                <br>
+                                <small>
+                                    {{warning.get_comment().comment | truncate(20)}}
+                                    {{warning.get_comment().comment | length > 20 and '...' or ''}}
+                                </small>
+                            {% elif warning.type == 'profile_warning' %}
+                                <a href="{{ url_for('profile', id=warning.user_id) }}">
+                                    Profile
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td class="warning-reason">
+                            {{warning.reason}}
+                        </td>
+                        <td class="warning-status col-2">
+                        
+                            {% if warning.forgiven %}
+                                Forgiven
+                                {% else %}
+                                {% if warning.disputable == 0 %}
+                                    Undisputable
+                                {% elif warning.dispute_closed %}
+                                    Closed
+                                {% elif g.user.super == 1 %}
+                                    {% if warning.disputed %}
+                                        <button id="forgive-warning-{{warning.id}}" class="btn btn-success forgive-warning">Forgive</button>
+                                        <button id="close-warning-{{warning.id}}" class="btn btn-danger close-dispute">Close</button>
+                                        <script>
+                                            document.querySelector("#forgive-warning-{{warning.id}}").addEventListener("click", () => forgive_warning({{warning.id}}, true));
+                                            document.querySelector("#close-warning-{{warning.id}}").addEventListener("click", () => close_dispute({{warning.id}}, true));
+                                        </script>
+                                    {% else %}
+                                        Undisputed
+                                    {% endif %}
+                                {% else %}
+                                    {% if warning.disputed %}
+                                        Dispute pending
+                                    {% else %}
+                                        <button id="dispute-warning-{{warning.id}}" class="btn btn-warning">Dispute</button>
+                                        <script>
+                                            document.querySelector("#dispute-warning-{{warning.id}}").addEventListener("click", () => dispute_warning({{warning.id}}, true));
+                                        </script>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    

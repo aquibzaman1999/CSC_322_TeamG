@@ -1,0 +1,39 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h3>
+                    Balance: {{g.user.balance}} $
+                </h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount in $</label>
+                        <input type="number" id="amount" name="amount" class="form-control" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="card_number" class="form-label">Card information</label>
+                        <input type="text" id="card_number" name="card_number" class="form-control" placeholder="Card number">
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group mb-2">
+                            <input type="text" id="expiration_month" name="expiration_month" class="form-control" placeholder="MM">
+                            <span class="input-group-text">/</span>
+                            <input type="text" id="expiration_year" name="expiration_year" class="form-control" placeholder="YY">
+                            <input type="text" id="cvv" name="cvv" class="form-control" placeholder="CVV">
+                        </div>
+                    </div>
+                    {% if error %}
+                        <div class="alert alert-danger mt-2" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" type="button">Submit payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

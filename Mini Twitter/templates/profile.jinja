@@ -1,0 +1,100 @@
+{% extends 'base.jinja' %}
+
+{% from "render_posts.jinja" import render_posts with context %}
+
+{% block content %}
+{% if g.auth and g.user.id != profile.id %}
+<div class="modal fade" id="tip_modal" tabindex="-1" aria-labelledby="tip_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tip_modal_label">Tip {{profile.username}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/add_tip/{{profile.id}}" method="POST">
+                    <div>
+                        <h4>Balance: {{g.user.balance}} $</h4>
+                    </div>
+                    <label for="amount">Tip amount:</label>
+                    <input type="text" id="amount" name="amount" class="form-control mb-2">
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" type="button">Send tip</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div>
+<div id="container-profile-{{profile.id}}" class="container" style="max-width: 750px;">
+        <div id="card-profile-{{profile.id}}" class="card border-0">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row align-items-center">
+                        {% if profile.profile_picture %}
+                        <div class="col-3">
+                            <img class="img-fluid img-thumbnail" style="border-radius: 25px;" src="{{ url_for('files', path=profile.profile_picture.filename) }}" alt="Profile pic">
+                        </div>
+                        <div class="col-7">
+                        {% else %}
+                        <div class="col-10">
+                        {% endif %}
+                            <h2 class="mb-0">{{profile.fullname}}</h2>
+                            <small>@{{profile.username}}</small>
+                        </div>
+                        <div class="col-1">
+                            <div class="d-flex justify-content-end">
+                                {% if (g.auth or profile.can_be_reported()) and profile.id != g.user.id %}
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="post_options"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="post_options">
+                                            {% if g.auth %}
+                                                <li><button id="tip-{{profile.id}}" class=" dropdown-item text-success fw-bold"
+                                                        type="button" data-bs-toggle="modal" data-bs-target="#tip_modal">Tip user</button></li>
+                                                {% if g.user.is_following(profile) %}
+                                                    <li><button id="follow-{{profile.id}}" class="d-none dropdown-item text-success fw-bold"
+                                                            >Follow</button></li>
+                                                    <li><button id="unfollow-{{profile.id}}" class="dropdown-item text-danger fw-bold"
+                                                            >Unfollow</button></li>
+                                                {% else %}
+                                                    <li><button id="follow-{{profile.id}}" class="dropdown-item text-success fw-bold"
+                                                            >Follow</button></li>
+                                                    <li><button id="unfollow-{{profile.id}}" class="d-none dropdown-item text-danger fw-bold"
+                                                            >Unfollow</button></li>
+                                                {% endif %}
+                                                    <script>
+                                                        document.querySelector("#follow-{{profile.id}}").addEventListener("click", () => follow_user({{ profile.id }}));
+                                                    </script>
+                                                    <script>
+                                                        document.querySelector("#unfollow-{{profile.id}}").addEventListener("click", () => unfollow_user({{ profile.id }}));
+                                                    </script>
+                                            {% endif %}
+                                            {% if profile.can_be_reported() %}
+                                                <li><button id="report-profile-{{profile.id}}" class="dropdown-item text-warning fw-bold"
+                                                        >Report</button></li>
+                                                <script>
+                                                    document.querySelector("#report-profile-{{profile.id}}").addEventListener("click", () => report_user({{ profile.id }}));
+                                                </script>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <p class="mb-0">{{profile.bio}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    {{ render_posts(posts, g.user.id == profile.id) }}
+</div>
+{% endblock %}

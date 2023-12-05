@@ -1,0 +1,47 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form method="POST" enctype="multipart/form-data">
+                {% if g.user.corporate %}
+                    <div class="mb-3">
+                    <label for="type" class="form-label">Post type</label>
+                    <select class="form-select form-select-lg" name="type" id="type">
+                        <option selected value="regular">Regular</option>
+                        <option value="ad">Advertisement</option>
+                        <option value="job_ad">Job offer</option>
+                    </select>
+                </div>
+                {% else %}
+                    <input type="hidden" name="type" value="regular">
+                {% endif %}
+                <div class="mb-3">
+                  <label for="message" class="form-label">Message</label>
+                  <textarea class="form-control" name="message" id="message" rows="6"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" id="keywords" name="keywords" class="form-control mb-2" aria-describedby="keywords_help">
+                    <div id="keywords_help" class="form-text">List of keywords, separated by a comma</div>
+                </div>
+                <div class="mb-3">
+                  <label for="attachment" class="form-label">Attachment</label>
+                  <input type="file" class="form-control" name="attachment" id="attachment" placeholder="nofile" aria-describedby="attachment_help">
+                  <div id="attachment_help" class="form-text">Choose an image or a video for your post</div>
+                </div>
+                {% if error %}
+                    <div class="alert alert-danger mt-2" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" type="button">Add post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

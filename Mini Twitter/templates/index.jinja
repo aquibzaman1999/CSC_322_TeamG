@@ -1,0 +1,7 @@
+{% extends 'base.jinja' %}
+
+{% from "render_posts.jinja" import render_posts with context %}
+
+{% block content %}
+    {{ render_posts(posts, True) }}
+{% endblock %}

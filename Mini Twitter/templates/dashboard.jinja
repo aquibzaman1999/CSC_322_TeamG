@@ -1,0 +1,70 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block border-end border-2 sidebar collapse" style="max-width: 210px;">
+                <div class="position-sticky pt-1">
+                  <h2 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
+                    <span>Admin</span>
+                  </h2>
+                  <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link {% if page=='users' %} active{% endif %}" href="{{ url_for('users') }}">
+                            Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if page=='payments' %} active{% endif %}" href="{{ url_for('payments') }}">
+                            Payments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if page=='applications' %} active{% endif %}" href="{{ url_for('applications') }}">
+                            Job applications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if page=='warnings' %} active{% endif %}" href="{{ url_for('warnings') }}">
+                            Warnings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if page=='taboo' %} active{% endif %}" href="{{ url_for('taboo_words') }}">
+                            Taboo words
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="reset-app-btn" class="nav-link text-danger" href="{{ url_for('reset_application') }}">
+                            Reset application
+                        </button>
+                        <script>
+                            document.querySelector("#reset-app-btn").addEventListener("click", function() {
+                                if (confirm("Are you sure you want to delete ALL DATA and reset the application?")) {
+                                    window.location.href = "{{ url_for('reset_application') }}";
+                                }
+                            });
+                        </script>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              
+              <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
+                {% if page=="users" %}
+                    {% include "users.jinja" %}
+                {% elif page=="payments" %}
+                    {% include "payments.jinja" %}
+                {% elif page=="warnings" %}
+                    {% include "warnings.jinja" %}
+                {% elif page=="taboo" %}
+                    {% include "taboo.jinja" %}
+                {% elif page=="applications" %}
+                    {% include "applications.jinja" %}
+                {% else %}
+                    <h3>Invalid page</h3>
+                {% endif %}
+              </div>
+        </div>
+    </div>
+{% endblock %}

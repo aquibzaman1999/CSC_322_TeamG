@@ -1,0 +1,55 @@
+<div class="table-responsive users-table">
+    <table class="table table-primary">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Reviewed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr id="user-row-{{user.id}}">
+                    <td class="user-id">
+                        <a href="{{ url_for('profile', id=user.id) }}">
+                            {{ user.id }}
+                        </a>
+                    </td>
+                    <td class="user-username">{{ user.username }}</td>
+                    <td class="user-fullname">{{ user.fullname }}</td>
+                    <td class="user-type">
+                        {% if user.super > 0 %}
+                            Super
+                        {% elif user.corporate > 0 %}
+                            Corporate 
+                        {% else %}
+                            Regular
+                        {% endif %}
+                    </td>
+                    <td class="user-balance">{{ user.balance }} $</td>
+                    <td class="user-reviewed">
+                        {% if user.reviewed == 1 and user.denied == 0 %}
+                            Accepted
+                        {% elif user.reviewed == 1 %}
+                            Rejected
+                        {% else %}
+                            <div>
+                                <button id="accept-user-{{user.id}}" class="btn btn-outline-primary" href="{{ url_for('accept_user', id=user.id) }}">Accept</button>
+                                <button id="reject-user-{{user.id}}" class="btn btn-outline-danger" href="{{ url_for('reject_user', id=user.id) }}">Reject</button>
+                            </div>
+                            <script>
+                                document.querySelector("#accept-user-{{user.id}}").addEventListener("click", () => accept_user({{user.id}}, true));
+                            </script>
+                            <script>
+                                document.querySelector("#reject-user-{{user.id}}").addEventListener("click", () => reject_user({{user.id}}, true));
+                            </script>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

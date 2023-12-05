@@ -1,0 +1,9 @@
+{% extends 'base.jinja' %}
+
+{% from "render_posts.jinja" import render_posts with context %}
+
+{% block content %}
+<div class="container" style="max-width: 750px;">
+    {% include "applications.jinja" %}
+</div>
+{% endblock %}

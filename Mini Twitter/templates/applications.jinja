@@ -1,0 +1,52 @@
+<div class="table-responsive users-table">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Message</th>
+                <th scope="col">Applicant</th>
+                <th scope="col">Reviewed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+                <tr id="application-row-{{application.id}}" class="application-row-for-{{application.message_id}}">
+                    <td class="application-message">
+                        <a href="{{url_for('post', id=application.message_id)}}">
+                            Full message
+                        </a>
+                        <br>
+                        <small>
+                        {{ application.get_message().message | truncate(20)}}
+                        {{ application.get_message().message | length > 20 and '...' or ''}}
+                        </small>
+                    </td>
+                    <td class="application-username">
+                        <a href="{{ url_for('profile', id=application.user_id) }}">
+                            {{ application.get_user().username }}
+                        </a>
+                    </td>
+                    <td class="application-reviewed">
+                        {% if application.answered == 1 and application.accepted == 1 %}
+                            Accepted
+                        {% elif application.answered == 1 %}
+                            Rejected
+                        {% elif g.user.id == application.get_message().get_author().id %}
+                            <div>
+                                <button id="accept-application-{{application.id}}" class="btn btn-outline-primary">Accept</button>
+                                <button id="reject-application-{{application.id}}" class="btn btn-outline-danger">Reject</button>
+                            </div>
+                            <script>
+                                document.querySelector("#accept-application-{{application.id}}").addEventListener("click", () => accept_application({{application.id}}, {{application.message_id}}));
+                            </script>
+                            <script>
+                                document.querySelector("#reject-application-{{application.id}}").addEventListener("click", () => reject_application({{application.id}}, {{application.message_id}}));
+                            </script>
+                        {% else %}
+                            Pending review
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
