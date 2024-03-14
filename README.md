@@ -2,7 +2,7 @@ Team Members: Aquib Zaman, Fahim Hasan, and Sarjeel Chowdhury
 # Mini Twitter
 Welcome to the Mini Twitter project! This is a lightweight social media application inspired by the core functionalities of Twitter. Below, you will find details about the features, interface, and user interactions of Mini Twitter.
 ## Features
-•	User Authentication: Secure login and registration system to manage user access.
+*•	User Authentication: Secure login and registration system to manage user access.
 •	Balance Management: A unique feature allowing users to check their balance and submit payments through a card, enhancing the platform's capability for potential monetization or in-app currency features.
 •	Posting: Users can create new posts with text content.
 •	Engagement: Posts can receive interactions such as likes (depicted as hearts), and there is functionality to add comments to posts.
