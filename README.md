@@ -28,7 +28,7 @@ Welcome to the Mini Twitter project! This is a lightweight social media applicat
 -	**Payment System:** Input the amount, card details, and submit to process transactions.
 -	**Reporting:** Options to report inappropriate content or advertisements ensure community standards are upheld.
 
-![Mini Twitter](https://github.com/aquibzaman1999/CSC_322_TeamG/assets/124324132/dc24eae8-c234-4248-a962-452fc60d0128)
+![Mini Twitter](https://github.com/aquibzaman1999/CSC_322_TeamG/assets/124324132/dc24eae8-c234-4248-a962-452fc60d0128) ![Mini Twitter 1](https://github.com/aquibzaman1999/CSC_322_TeamG/assets/124324132/78768314-a17b-48b3-bbb3-e2ef80f52f4f)
 
-![Mini Twitter 1](https://github.com/aquibzaman1999/CSC_322_TeamG/assets/124324132/78768314-a17b-48b3-bbb3-e2ef80f52f4f)
+
 
